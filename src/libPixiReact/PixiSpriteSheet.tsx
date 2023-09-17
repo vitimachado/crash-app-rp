@@ -19,7 +19,7 @@ type Props = {
 };
 
 export const PixiSpriteSheet = (props: Props) => {
-    const { jsonURL, update, wrap } = props;
+    const { jsonURL, update } = props;
     const { app, assets, onStart } = React.useContext<any>(PixiApplicationContext);
 
     useEffect(() => {
@@ -39,9 +39,9 @@ export const PixiSpriteSheet = (props: Props) => {
         }
 
         return () => {
-            app && app.ticker.remove(tick);
+            app && app?.ticker?.remove?.(tick);
         };
-    }, [app, wrap]);
+    }, [app]);
 
     return <></>
 };

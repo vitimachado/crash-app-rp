@@ -1,6 +1,6 @@
 'use client'
 import { Sprite } from "pixi.js";
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { PixiApplicationContext } from "./PixiApplication";
 import { setImageOptions } from "./actions/helpers.action";
 
@@ -11,29 +11,37 @@ type Props = {
     width?: number;
     height?: number;
     wrap?: any;
-    update?: (sprite:any, delta: number, app?: any) => void;
-    onStart?: (sprite: Sprite) => void;
+    auxData?: any;
+    update?: (sprite:any, delta: number, app?: any, auxData?: any) => void;
+    onStart?: (sprite: Sprite, app: any) => void;
 };
 
 export const PixiSprite = (props: Props) => {
-    const { imageURL, x, y, width = 30, height = 30, update, wrap, onStart } = props;
+    const [init, setInit] = useState(false)
+    const { imageURL, update, onStart, auxData } = props;
+    console.log("🚀 ~ file: PixiSprite.tsx:22 ~ PixiSprite ~ auxData:", auxData?.arrowDown)
     const { app } = React.useContext<any>(PixiApplicationContext);
+
+    const tick = useCallback(
+        (sprite: Sprite, delta: number) => sprite && update && update(sprite, delta, app, auxData),
+      [auxData],
+    );
 
     useEffect(() => {
         // create a new Sprite from an image path
-        const sprite = Sprite.from(imageURL);
-        const tick = (delta: number) => update && update(sprite, delta, app);
-        if(!!app) {
+        if(!!app && !init) {
+            const sprite = Sprite.from(imageURL);
             setImageOptions(app, sprite, props);
-            onStart && onStart(sprite);
+            onStart && onStart(sprite, app);
             // Listen for animate update
-            app.ticker.add(tick);
+            app.ticker.add((delta: number) => tick(sprite, delta));
+            setInit(true);
         }
 
         return () => {
-            app.ticker.remove(tick);
+            app && app?.ticker?.remove?.(tick);
         };
-    }, [app, wrap]);
+    }, [app]);
 
     return <></>
 };

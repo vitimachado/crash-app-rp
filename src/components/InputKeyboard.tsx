@@ -1,9 +1,8 @@
 'use client'
+import { KeyBoardsKeys } from "@/configs/constants";
 import React, { useEffect, useReducer } from "react";
 
 type Props = { children: any; };
-
-export const InputKeyboardContext = React.createContext({});
 
 const initialState = {
     arrowRight: false,
@@ -11,17 +10,19 @@ const initialState = {
     arrowUp: false,
     arrowDown: false
 };
-  
+
+export const InputKeyboardContext = React.createContext({});
+
 function reducer(state: typeof initialState, action: any) {
     const keyboardStatus = !!action?.keydown ? true: false;
     switch (action.type) {
-        case 'ArrowRight':
+        case KeyBoardsKeys.ArrowRight:
             return { ...state, arrowRight: keyboardStatus };
-        case 'ArrowLeft':
+        case KeyBoardsKeys.ArrowLeft:
             return { ...state, arrowLeft: keyboardStatus };
-        case 'ArrowUp':
+        case KeyBoardsKeys.ArrowUp:
             return { ...state, arrowUp: keyboardStatus };
-        case 'ArrowDown':
+        case KeyBoardsKeys.ArrowDown:
             return { ...state, arrowDown: keyboardStatus };
         case 'reset':
             return initialState;
@@ -58,6 +59,7 @@ export const InputKeyboard = ({ children }: Props) => {
             removeEventListeners();
         };
     }, []);
+
 
     return (
         <InputKeyboardContext.Provider value={{ inputsKeyboard: state }}>

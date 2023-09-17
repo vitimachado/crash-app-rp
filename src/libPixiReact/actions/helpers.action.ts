@@ -15,7 +15,6 @@ export const setImageOptions = (app: any, img: any, options: any): void => {
     img.y = (y ? y : (app.screen.height / 2)) + (height/2);
 
     if(animationSpeed !== undefined) {
-        console.log("🚀 ~ file: helpers.action.ts:18 ~ setImageOptions ~ spriteSpeed:", animationSpeed)
         img.animationSpeed = animationSpeed || 0;
         img.play();
     }
@@ -27,3 +26,54 @@ export const setImageOptions = (app: any, img: any, options: any): void => {
         app.stage.addChild?.(img);
     }
 };
+
+
+export function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+}
+
+export const updateRotation = (sprite: any, delta: number) => {
+    sprite.rotation += 0.05 * delta;
+}
+
+export const updateMovementY = (sprite: any, delta: number, app: any) => {
+  sprite.y += 1 * delta;
+  if(sprite.y > app.screen.height) {
+    sprite.y = 0;
+  }
+}
+
+export const updateMovementX = (sprite: any, delta: number, app: any) => {
+  sprite.x += 1 * delta;
+  if(sprite.x > app.screen.width) {
+    sprite.x = 0;
+  }
+}
+
+export const updateMovementXY = (sprite: any, delta: number, app: any) => {
+  sprite.x += 1 * delta;
+  if(sprite.x > app.screen.width) {
+    sprite.x = 0;
+  }
+  sprite.y += 1 * delta;
+  if(sprite.y > app.screen.height) {
+    sprite.y = 0;
+  }
+}
+
+export const updateTileMovementY = (sprite: any, delta: number, app: any) => {
+    sprite.tilePosition.y += 2 * delta;
+}
+
+
+export const updateRandow = () => {
+    const updateFunctions = [
+        updateRotation,
+        updateMovementY,
+        updateMovementX,
+        updateMovementXY
+    ];
+    const randomIndex = getRandomInt(updateFunctions.length);
+    return updateFunctions[randomIndex];
+}
+

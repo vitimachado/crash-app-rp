@@ -26,9 +26,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default function Game({ params: { gameId } }: Params) {
   return (
     <>
-      <div>Game {gameId}</div>
-      {/* <ReturnGame gameId={gameId} /> */}
-      <RocketMan />
+      <h2 className='px-8 text-xl'>Game {gameId}</h2>
+      <ReturnGame gameId={gameId} />
+      {/* <RocketMan /> */}
     </>
   )
 }

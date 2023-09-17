@@ -24,7 +24,7 @@ export const PixiTiling = ({ imageURL, x, y, width, height, update, wrap }: Prop
         }
 
         return () => {
-            app.ticker.remove(tick);
+            app && app?.ticker?.remove?.(tick);
         };
     }, [app, wrap]);
 
@@ -43,7 +43,7 @@ export const PixiTiling = ({ imageURL, x, y, width, height, update, wrap }: Prop
 //   }
 
 //   componentWillUnmount() {
-//     this.props.app.ticker.remove(this.tick);
+//     this.props.app?.ticker?.remove?.(this.tick);
 //   }
 
 //   tick = delta => {

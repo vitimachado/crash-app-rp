@@ -18,6 +18,7 @@ export default function PixiApplication({ children }: Props) {
         if(!!app?.view?.style) {
             // @ts-ignore
             app.view.style.margin = 'auto';
+            app.view.style.height = '90vh';
             // @ts-ignore
             if(ref?.current) ref.current.appendChild(app.view);
 
@@ -33,7 +34,7 @@ export default function PixiApplication({ children }: Props) {
     }, []);
 
     return (
-        <PixiApplicationContext.Provider value={{ app, assets }}>
+        <PixiApplicationContext.Provider value={{ app, assets, screenWidth: app?.screen?.width, screenHeight: app?.screen?.height }}>
             <div ref={ref}>{children}</div>
         </PixiApplicationContext.Provider>
     )
