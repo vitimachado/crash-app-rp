@@ -1,4 +1,4 @@
-'use client'
+
 import { ListView } from '@/components/List';
 import getAllGames from '@/lib/getAllGames';
 import { Metadata } from 'next';
