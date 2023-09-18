@@ -1,13 +1,6 @@
 import ReturnGame from '@/games'
-import { RocketMan } from '@/games/RocketMan/RocketMan'
 import { Metadata } from 'next'
 import React from 'react'
-
-export const metadata: Metadata = {
-  title: 'Game',
-  description: 'Game page description',
-}
-
 type Params = {
     params: {
         gameId: string
