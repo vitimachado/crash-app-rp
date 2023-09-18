@@ -13,7 +13,7 @@ export default function ConsoleLayout({
 }) {
   return (
     <>
-        <nav className='px-8 py-5 bg-[#4f46e5]'>Nav</nav>
+        <nav className='px-8 py-5 bg-[#0d1947]'>Nav</nav>
         {children}
     </>
   )

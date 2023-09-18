@@ -3,5 +3,5 @@ export default async function getAllGames() {
 
     //if(!res.ok) throw new Error('failed to get users');
 
-    return [{ id: 1, name: 'Spaceship Game'}]; //res.json();
+    return [{ id: 1, name: 'Spaceship Game', description: 'Game with a spaceship' }]; //res.json();
 }
