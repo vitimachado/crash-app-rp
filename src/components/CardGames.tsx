@@ -15,7 +15,7 @@ type Props = {
 export const CardGames = ({ item }: Props) =>
 {
   return (
-    <div className="block rounded-t-lg">
+    <div className="block rounded-t-lg shadow-inner shadow-[0_10px_30px_-5px_rgba(255,255,255,0.11)]">
       <div className="relative overflow-hidden bg-cover bg-no-repeat" data-te-ripple-init  data-te-ripple-color="light">
           <img className="rounded-t-lg" src={item.img} alt="" />
           <Link href={`/console/${item?.id}`} >
