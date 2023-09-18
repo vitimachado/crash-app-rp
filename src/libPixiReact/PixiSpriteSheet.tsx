@@ -32,14 +32,15 @@ export const PixiSpriteSheet = (props: Props) => {
                 const anim = new AnimatedSprite(textures);
                 setImageOptions(app, anim, props);
                 onStart && onStart(anim);
-                
+
                 // // Listen for animate update
                 app.ticker.add((delta: number) => {tick(anim, delta)});
-            })
+            });
         }
 
         return () => {
             app && app?.ticker?.remove?.(tick);
+            Assets.unload(jsonURL);
         };
     }, [app]);
 

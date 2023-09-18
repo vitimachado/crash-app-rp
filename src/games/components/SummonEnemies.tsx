@@ -1,11 +1,8 @@
 'use client'
-import React, { useEffect, useState, useCallback } from "react";
-import { PixiSprite } from '@/libPixiReact/PixiSprite';
-import PixiStage from '@/libPixiReact/PixiStage';
-import { InputKeyboardContext } from "@/components/InputKeyboard";
 import { PixiApplicationContext } from "@/libPixiReact/PixiApplication";
 import { PixiSpriteSheet } from "@/libPixiReact/PixiSpriteSheet";
-import { getRandomInt, updateMovementX, updateRandow } from "@/libPixiReact/actions/helpers.action";
+import { getRandomInt, updateRandow } from "@/libPixiReact/actions/helpers.action";
+import React from "react";
 
 type Props = {
     jsonURL: string | string[];
@@ -22,9 +19,7 @@ type Props = {
 };
 
 export const SummonEnemies = (props: Props) => {
-    const [sprite, setSprite] = useState<any>();
     const { screenWidth, screenHeight } = React.useContext<any>(PixiApplicationContext);
-    const { inputsKeyboard } = React.useContext<any>(InputKeyboardContext);
     const { jsonURL = '/imgs/sprites/meteorite_sprite.json', randomNumber } = props;
 
     const jsonURLs = !!jsonURL ? Array.isArray(jsonURL) ? jsonURL : Array.from({length: randomNumber || 0}, () => jsonURL) : [];
@@ -44,7 +39,6 @@ export const SummonEnemies = (props: Props) => {
     if(!screenWidth) {
         return <></>;
     }
-    console.log("🚀 ~ file: SummonEnemies.tsx:27 ~ SummonEnemies ~ screenWidth:", screenWidth)
 
     return <>
         {

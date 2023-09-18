@@ -28,7 +28,6 @@ export default function Game({ params: { gameId } }: Params) {
     <>
       <h2 className='px-8 text-xl'>Game {gameId}</h2>
       <ReturnGame gameId={gameId} />
-      {/* <RocketMan /> */}
     </>
   )
 }
