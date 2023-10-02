@@ -19,7 +19,6 @@ type Props = {
 export const PixiSprite = (props: Props) => {
     const [init, setInit] = useState(false)
     const { imageURL, update, onStart, auxData } = props;
-    console.log("🚀 ~ file: PixiSprite.tsx:22 ~ PixiSprite ~ auxData:", auxData?.arrowDown)
     const { app } = React.useContext<any>(PixiApplicationContext);
 
     const tick = useCallback(

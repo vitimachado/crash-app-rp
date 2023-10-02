@@ -3,7 +3,7 @@ import { defaultPlayerSpeed } from "@/configs/constants";
 export const handleInput = (sprite: any, app: any, inputsKeyboard: any, stats: any) => {
     if(inputsKeyboard?.arrowDown) {
         const value = sprite.y + (stats?.speed || defaultPlayerSpeed);
-        if(value < app.screen.width) {
+        if(value < app.screen.height) {
             sprite.y = value;
         }
     }
@@ -13,7 +13,7 @@ export const handleInput = (sprite: any, app: any, inputsKeyboard: any, stats: a
             sprite.y = value;
         }
         else {
-            //sprite.y = 0; 
+            sprite.y = 0; 
         }
     }
     if(inputsKeyboard?.arrowRight) {

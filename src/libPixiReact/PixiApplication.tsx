@@ -18,7 +18,7 @@ export default function PixiApplication({ children }: Props) {
         if(!!app?.view?.style) {
             // @ts-ignore
             app.view.style.margin = 'auto';
-            app.view.style.height = '90vh';
+            app.view.style.height = '85vh';
             // @ts-ignore
             if(ref?.current) ref.current.appendChild(app.view);
 

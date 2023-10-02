@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { PixiSprite } from '@/libPixiReact/PixiSprite';
 import PixiStage from '@/libPixiReact/PixiStage';
 import { InputKeyboardContext } from "@/components/InputKeyboard";
@@ -24,35 +24,29 @@ export const PlayerContext = React.createContext({});
 
 export const Player = (props: Props) => {
     const [sprite, setSprite] = useState<any>();
-    const { app } = React.useContext<any>(PixiApplicationContext);
     const { inputsKeyboard } = React.useContext<any>(InputKeyboardContext);
+    const inputsKeyboardRef = useRef();
+    inputsKeyboardRef.current = inputsKeyboard;
+    const playerdRef = useRef();
+    playerdRef.current = sprite;
     const { imageURL = '/imgs/ufo1.png', width = 100, height = 100, stats, children } = props;
-    
-    useEffect(() => {
-        if(!!sprite) {
-            handleInput(sprite, app, inputsKeyboard, stats);
-        }
-        return () => {
-        };
-    }, [inputsKeyboard]);
 
     const update = (sprite: any, delta: number, app: any) => {
         sprite.rotation += 0.05 * delta;
+        handleInput(sprite, app, inputsKeyboardRef.current, stats)
     }
 
     const handleOnStart = (sprite: any, app: any) => {
         setSprite(sprite);
-        app.stage.eventMode = 'static';
-        app.stage.hitArea = app.screen;
-        app.stage.on('mousemove', (event: any) => {
-            sprite.x = event.global.x;
-            sprite.y = event.global.y;
-        });
+    }
+
+    const onColision = (sprite: any, stats: any) => {
+        console.log("🚀 ~ file: Player.tsx:44 ~ onColision ~ stats:", stats)
     }
 
     return (
         <PixiStage>
-            <PlayerContext.Provider value={{ playerSprite: sprite }}>
+            <PlayerContext.Provider value={{ playerSprite: playerdRef, onColision }}>
                 <PixiSprite
                     imageURL={imageURL}
                     width={width}

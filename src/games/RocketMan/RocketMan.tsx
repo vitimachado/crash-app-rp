@@ -12,7 +12,7 @@ export const RocketMan = () =>
       <InputKeyboard>
         <Background backgroundURL='/imgs/bg/sky01.png'>
           <Player imageURL='/imgs/ufo1.png'>
-            <SummonEnemies jsonURL={'/imgs/sprites/meteorite_sprite.json'} randomNumber={30}/>
+            <SummonEnemies jsonURL={'/imgs/sprites/meteorite_sprite.json'} randomNumber={10}/>
           </Player>
         </Background>
       </InputKeyboard>

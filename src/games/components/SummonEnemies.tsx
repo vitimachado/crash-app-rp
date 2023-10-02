@@ -1,8 +1,10 @@
 'use client'
 import { PixiApplicationContext } from "@/libPixiReact/PixiApplication";
 import { PixiSpriteSheet } from "@/libPixiReact/PixiSpriteSheet";
-import { getRandomInt, updateRandow } from "@/libPixiReact/actions/helpers.action";
+import { getRandomInt, rectIntersection, updateRandow } from "@/libPixiReact/actions/helpers.action";
 import React from "react";
+import { PlayerContext } from "./Player";
+import { AnimatedSprite } from "pixi.js";
 
 type Props = {
     jsonURL: string | string[];
@@ -19,6 +21,8 @@ type Props = {
 };
 
 export const SummonEnemies = (props: Props) => {
+    const { playerSprite, onColision } = React.useContext<any>(PlayerContext);
+
     const { screenWidth, screenHeight } = React.useContext<any>(PixiApplicationContext);
     const { jsonURL = '/imgs/sprites/meteorite_sprite.json', randomNumber } = props;
 
@@ -28,7 +32,12 @@ export const SummonEnemies = (props: Props) => {
         const widthHeight = getRandomInt(100);
         return {
             animationSpeed: getRandomInt(100)/100,
-            update: updateRandow(),
+            update: (sprite: AnimatedSprite) => {
+                updateRandow();
+                if(rectIntersection(playerSprite?.current, sprite)) {
+                    onColision(sprite, { hit: getRandomInt(sprite.width) })
+                }
+            },
             x: getRandomInt(screenWidth),
             y: getRandomInt(screenHeight),
             width: getRandomInt(widthHeight),

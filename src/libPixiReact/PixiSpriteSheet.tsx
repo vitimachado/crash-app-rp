@@ -1,9 +1,7 @@
 'use client'
-import { Sprite } from "pixi.js";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { PixiApplicationContext } from "./PixiApplication";
-import { Assets, Loader, AnimatedSprite, Texture } from "pixi.js";
-import data from './../../public/imgs/sprites/meteorite_sprite.json';
+import { Assets, AnimatedSprite } from "pixi.js";
 import { setImageOptions } from "./actions/helpers.action";
 
 type Props = {
@@ -37,7 +35,7 @@ export const PixiSpriteSheet = (props: Props) => {
                 app.ticker.add((delta: number) => {tick(anim, delta)});
             });
         }
-
+        
         return () => {
             app && app?.ticker?.remove?.(tick);
             Assets.unload(jsonURL);

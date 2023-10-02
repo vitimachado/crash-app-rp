@@ -77,3 +77,15 @@ export const updateRandow = () => {
     return updateFunctions[randomIndex];
 }
 
+export const rectIntersection = (a: any, b: any) => {
+    const aRect = a?.getBounds();
+    const bRect = b?.getBounds();
+    if(!aRect || !bRect) {
+      return false;
+    }
+
+    return aRect.x + aRect.width > bRect.x &&
+           aRect.x < bRect.width + bRect.x &&
+           aRect.y + aRect.height > bRect.y &&
+           aRect.y < bRect.height + bRect.y;
+}

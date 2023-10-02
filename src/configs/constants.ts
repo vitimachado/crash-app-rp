@@ -1,4 +1,4 @@
-export const defaultPlayerSpeed = 20;
+export const defaultPlayerSpeed = 5;
 
 export const KeyBoardsKeys = {
     ArrowRight: 'ArrowRight',
