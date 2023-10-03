@@ -4,5 +4,9 @@ export const KeyBoardsKeys = {
     ArrowRight: 'ArrowRight',
     ArrowLeft: 'ArrowLeft',
     ArrowUp: 'ArrowUp',
-    ArrowDown: 'ArrowDown'
+    ArrowDown: 'ArrowDown',
+    W: 'w',
+    S: 's',
+    A: 'a',
+    D: 'd'
 }

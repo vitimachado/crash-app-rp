@@ -17,12 +17,16 @@ function reducer(state: typeof initialState, action: any) {
     const keyboardStatus = !!action?.keydown ? true: false;
     switch (action.type) {
         case KeyBoardsKeys.ArrowRight:
+        case KeyBoardsKeys.D:
             return { ...state, arrowRight: keyboardStatus };
         case KeyBoardsKeys.ArrowLeft:
+        case KeyBoardsKeys.A:
             return { ...state, arrowLeft: keyboardStatus };
         case KeyBoardsKeys.ArrowUp:
+        case KeyBoardsKeys.W:
             return { ...state, arrowUp: keyboardStatus };
         case KeyBoardsKeys.ArrowDown:
+        case KeyBoardsKeys.S:
             return { ...state, arrowDown: keyboardStatus };
         case 'reset':
             return initialState;
@@ -40,6 +44,7 @@ export const InputKeyboard = ({ children }: Props) => {
     }
     
     const removeEventListeners = () => {
+        window.removeEventListener("keydown", downHandler);
         window.removeEventListener("keydown", downHandler);
         window.removeEventListener("keyup", upHandler);
     }
