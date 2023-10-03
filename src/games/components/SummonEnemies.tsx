@@ -1,49 +1,54 @@
 'use client'
 import { PixiApplicationContext } from "@/libPixiReact/PixiApplication";
 import { PixiSpriteSheet } from "@/libPixiReact/PixiSpriteSheet";
-import { getRandomInt, rectIntersection, updateRandow } from "@/libPixiReact/actions/helpers.action";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PlayerContext } from "./Player";
-import { AnimatedSprite } from "pixi.js";
+import { Sprite } from "pixi.js";
 
-type Props = {
-    jsonURL: string | string[];
+export interface SpriteSheetProps {
+    jsonURL?: string | string[];
     x?: number;
     y?: number;
     width?: number;
     height?: number;
-    wrap?: any;
-    update?: (sprite:any, delta: number, app?: any) => void;
+    animationSpeed?: number;
     stats?: {
         speed: number;
-    },
-    randomNumber?: number;
+    };
+    wrap?: any;
+    update?: (sprite:any, delta: number, app?: any) => void;
+    onStart?: (sprite: Sprite, app: any) => void;
 };
 
-export const SummonEnemies = (props: Props) => {
-    const { playerSprite, onColision } = React.useContext<any>(PlayerContext);
+export type SpriteSheetStatsProps = {
+    playerSprite: any;
+    onColision: any;
+    screenWidth: any;
+    screenHeight: any;
+    defaultProps?: SpriteSheetProps;
+    playerDataRef?: any;
+}
 
-    const { screenWidth, screenHeight } = React.useContext<any>(PixiApplicationContext);
-    const { jsonURL = '/imgs/sprites/meteorite_sprite.json', randomNumber } = props;
+type Props = {
+    spriteSheetStats: ({ playerSprite, onColision, screenWidth, screenHeight, playerDataRef }: SpriteSheetStatsProps) => SpriteSheetProps[];
+    onLoad?: (sprite: Sprite, app: any) => void;
+};
 
-    const jsonURLs = !!jsonURL ? Array.isArray(jsonURL) ? jsonURL : Array.from({length: randomNumber || 0}, () => jsonURL) : [];
+export const SummonSpriteSheets = (props: Props) => {
+    const [init, setInit] = useState(false)
+    const { playerSprite, onColision, playerDataRef } = React.useContext<any>(PlayerContext);
 
-    const randownValues = () => {
-        const widthHeight = getRandomInt(100);
-        return {
-            animationSpeed: getRandomInt(100)/100,
-            update: (sprite: AnimatedSprite) => {
-                updateRandow();
-                if(rectIntersection(playerSprite?.current, sprite)) {
-                    onColision(sprite, { hit: getRandomInt(sprite.width) })
-                }
-            },
-            x: getRandomInt(screenWidth),
-            y: getRandomInt(screenHeight),
-            width: getRandomInt(widthHeight),
-            height: getRandomInt(widthHeight)
-        };
-    }
+    const { screenWidth, screenHeight, app } = React.useContext<any>(PixiApplicationContext);
+    const { spriteSheetStats, onLoad } = props;
+
+    useEffect(() => {
+        // create a new Sprite from an image path
+        if(!!playerSprite && !!app && !init) {
+            onLoad && onLoad(playerSprite, app)
+            setInit(true);
+        }
+    }, [app]);
+    
 
     if(!screenWidth) {
         return <></>;
@@ -51,9 +56,11 @@ export const SummonEnemies = (props: Props) => {
 
     return <>
         {
-            jsonURLs.map((json: any, i) => (
-                <PixiSpriteSheet key={`summonEnemies-${jsonURL}-${i}`} jsonURL={json} {...randownValues()} />
-            ))
+            spriteSheetStats({ playerSprite, onColision, screenWidth, screenHeight, playerDataRef })
+                .map((spriteSheet: any, i) => spriteSheet?.jsonURL ? (
+                        <PixiSpriteSheet key={`summonEnemies-${spriteSheet.jsonURL}-${i}`} {...props} {...spriteSheet} />
+                    ) : <></>
+                )
         }
     </>;
 };

@@ -1,3 +1,6 @@
+import { SpriteSheetStatsProps, SpriteSheetProps } from "@/games/components/SummonEnemies";
+import { AnimatedSprite } from "pixi.js";
+
 export const setImageOptions = (app: any, img: any, options: any): void => {
     const { x, y, width = 30, height = 30, animationSpeed, wrap } = options;
     /*
@@ -88,4 +91,37 @@ export const rectIntersection = (a: any, b: any) => {
            aRect.x < bRect.width + bRect.x &&
            aRect.y + aRect.height > bRect.y &&
            aRect.y < bRect.height + bRect.y;
-}
+};
+
+export const randownValues = ({ playerSprite, onColision, screenWidth, screenHeight, defaultProps }: SpriteSheetStatsProps): SpriteSheetProps => {
+  const widthHeight = getRandomInt(100);
+  return {
+    x: getRandomInt(screenWidth),
+    y: getRandomInt(screenHeight),
+    width: getRandomInt(widthHeight),
+    height: getRandomInt(widthHeight),
+    animationSpeed: getRandomInt(100)/100,
+    stats: {
+      speed: 5,
+    },
+    update: (sprite: AnimatedSprite, delta: number, app: any) => {
+      const movementFun = updateRandow();
+      movementFun(sprite, delta, app);
+      if(rectIntersection(playerSprite?.current, sprite)) {
+        onColision(
+          sprite,
+          {
+            hit: getRandomInt(sprite.width),
+            other: {
+              sprite,
+              stats: {
+                speed: 5,
+              }
+            }
+          }
+        )
+      }
+    },
+    ...defaultProps
+  };
+};

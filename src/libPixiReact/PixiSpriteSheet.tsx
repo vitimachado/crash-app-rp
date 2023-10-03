@@ -6,11 +6,6 @@ import { setImageOptions } from "./actions/helpers.action";
 
 type Props = {
     jsonURL: string;
-    x?: number;
-    y?: number;
-    width?: number;
-    height?: number;
-    animationSpeed?: number;
     wrap?: any;
     update?: (img:any, delta: number, app?: any) => void;
     onStart?: (animatedSprite: AnimatedSprite) => void;
@@ -26,12 +21,10 @@ export const PixiSpriteSheet = (props: Props) => {
             Assets.load(jsonURL).then((spritesheet) => {
                 const textures = Object.values(spritesheet?.textures) as any;
 
-                // create an AnimatedSprite (brings back memories from the days of Flash, right ?)
                 const anim = new AnimatedSprite(textures);
                 setImageOptions(app, anim, props);
                 onStart && onStart(anim);
 
-                // // Listen for animate update
                 app.ticker.add((delta: number) => {tick(anim, delta)});
             });
         }
