@@ -8,6 +8,7 @@ import { PixiApplicationContext } from "@/libPixiReact/PixiApplication";
 import { Sprite } from "pixi.js";
 import { Explosions } from "./FXs/Explosions";
 import { usePrevious } from "@/shared/hook/usePrevious";
+import { HorizontalBar } from "./UI/HorizontalBar";
 
 type Props = {
     children: any;
@@ -31,15 +32,18 @@ export const Player = (props: Props) => {
     const [collider, setCollider] = useState<any>();
     const { inputsKeyboard } = React.useContext<any>(InputKeyboardContext);
     const { imageURL = '/imgs/ufo1.png', width = 100, height = 100, stats, children } = props;
-    const [life, setLife] = useState<number>(stats?.maxLife ?? 100);
+    const maxLife = stats?.maxLife ?? 100;
+    const [life, setLife] = useState<number>(maxLife);
     const [alive, setAlived] = useState<boolean>(false);
     const { app } = React.useContext<any>(PixiApplicationContext);
+    const lifeRef = useRef<number>();
     const inputsKeyboardRef = useRef();
     const playerRef = useRef();
     const playerDataRef = useRef<any>();
 
     const [prevLife, currLife] = usePrevious(life);
 
+    lifeRef.current = life;
     inputsKeyboardRef.current = inputsKeyboard;
     playerRef.current = sprite;
     playerDataRef.current = {
@@ -85,6 +89,7 @@ export const Player = (props: Props) => {
     return (
         <PixiStage>
             <PlayerContext.Provider value={{ playerSprite: playerRef, onColision, playerDataRef }}>
+                <HorizontalBar maxValue={maxLife} currentValue={lifeRef} />
                 <PixiSprite
                     imageURL={imageURL}
                     width={width}
