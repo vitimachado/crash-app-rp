@@ -11,9 +11,9 @@ export const RocketMan = () => {
 		<PixiApplication>
 		<InputKeyboard>
 			<Background backgroundURL='/imgs/bg/sky01.png'>
-			<Player imageURL='/imgs/ufo1.png' stats={{ maxLife: 10000 }}>
-				<Meteorites />
-			</Player>
+				<Player imageURL='/imgs/ufo1.png' stats={{ maxLife: 10000 }}>
+					<Meteorites numberOfSprites={30} />
+				</Player>
 			</Background>
 		</InputKeyboard>
 		</PixiApplication>

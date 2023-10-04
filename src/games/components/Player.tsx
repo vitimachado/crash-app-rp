@@ -89,7 +89,6 @@ export const Player = (props: Props) => {
     return (
         <PixiStage>
             <PlayerContext.Provider value={{ playerSprite: playerRef, onColision, playerDataRef }}>
-                <HorizontalBar maxValue={maxLife} currentValue={lifeRef} />
                 <PixiSprite
                     imageURL={imageURL}
                     width={width}
@@ -98,6 +97,7 @@ export const Player = (props: Props) => {
                     onStart={handleOnStart} />
                 <Explosions />
                 {children}
+                <HorizontalBar maxValue={maxLife} currentValue={lifeRef} />
             </PlayerContext.Provider>
         </PixiStage>
     );
