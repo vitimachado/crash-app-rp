@@ -2,8 +2,8 @@
 import { PixiApplicationContext } from "@/libPixiReact/PixiApplication";
 import { PixiSpriteSheet } from "@/libPixiReact/PixiSpriteSheet";
 import React, { useEffect, useState } from "react";
-import { PlayerContext } from "./Player";
-import { Sprite } from "pixi.js";
+import { PlayerContext } from "../Player";
+import { Application, Sprite } from "pixi.js";
 
 export interface SpriteSheetProps {
     jsonURL?: string | string[];
@@ -31,7 +31,7 @@ export type SpriteSheetStatsProps = {
 
 type Props = {
     spriteSheetStats: ({ playerSprite, onColision, screenWidth, screenHeight, playerDataRef }: SpriteSheetStatsProps) => SpriteSheetProps[];
-    onLoad?: (sprite: Sprite, app: any) => void;
+    onLoadSummonSpriteSheets ?: (sprite: Sprite, app: Application) => void;
 };
 
 export const SummonSpriteSheets = (props: Props) => {
@@ -39,12 +39,12 @@ export const SummonSpriteSheets = (props: Props) => {
     const { playerSprite, onColision, playerDataRef } = React.useContext<any>(PlayerContext);
 
     const { screenWidth, screenHeight, app } = React.useContext<any>(PixiApplicationContext);
-    const { spriteSheetStats, onLoad } = props;
+    const { spriteSheetStats, onLoadSummonSpriteSheets } = props;
 
     useEffect(() => {
         // create a new Sprite from an image path
         if(!!playerSprite && !!app && !init) {
-            onLoad && onLoad(playerSprite, app)
+            onLoadSummonSpriteSheets && onLoadSummonSpriteSheets(playerSprite, app)
             setInit(true);
         }
     }, [app]);

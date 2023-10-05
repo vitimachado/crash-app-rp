@@ -1,6 +1,6 @@
 'use client'
 import { randownValues } from '@/libPixiReact/actions/helpers.action';
-import { SpriteSheetStatsProps, SpriteSheetProps, SummonSpriteSheets } from '../SummonEnemies';
+import { SpriteSheetStatsProps, SpriteSheetProps, SummonSpriteSheets } from '../Factories/SummonEnemies';
 import { PixiGraphic } from '@/libPixiReact/PixiGraphic';
 import { Graphics } from 'pixi.js';
 

@@ -34,6 +34,8 @@ export const Player = (props: Props) => {
     const { imageURL = '/imgs/ufo1.png', width = 100, height = 100, stats, children } = props;
     const maxLife = stats?.maxLife ?? 100;
     const [life, setLife] = useState<number>(maxLife);
+    const [score, setScore] = useState<number>(0);
+    console.log("🚀 ~ file: Player.tsx:38 ~ Player ~ score:", score)
     const [alive, setAlived] = useState<boolean>(false);
     const { app } = React.useContext<any>(PixiApplicationContext);
     const lifeRef = useRef<number>();
@@ -42,6 +44,7 @@ export const Player = (props: Props) => {
     const playerDataRef = useRef<any>();
 
     const [prevLife, currLife] = usePrevious(life);
+    const [prevScored, currScored] = usePrevious(score);
 
     lifeRef.current = life;
     inputsKeyboardRef.current = inputsKeyboard;
@@ -50,7 +53,9 @@ export const Player = (props: Props) => {
         sprite,
         life,
         alive,
-        hitted: !!prevLife && !!currLife && currLife > 0 && prevLife !== currLife,
+        hitted: !!prevLife && !!currLife && (currLife > 0) && (currLife < prevLife),
+        addHealth: !!prevLife && !!currLife && (currLife > 0) && (currLife > prevLife),
+        scored: !!prevScored && !!currScored && (currScored > 0) && (currScored > prevScored),
         collider
     };
 
@@ -81,8 +86,22 @@ export const Player = (props: Props) => {
         }
     }
 
+    const addHealth = (setLife: React.Dispatch<React.SetStateAction<number>>, health: number) => {
+        if(!!health) {
+            setLife((prev: number) => prev + health);
+        }
+    }
+
+    const addScore = (setScore: React.Dispatch<React.SetStateAction<number>>, score: number) => {
+        if(!!score) {
+            setScore((prev: number) => prev + score);
+        }
+    }
+
     const onColision = (_: any, statsOther: any) => {
-        damageHit(setLife, statsOther?.hit);
+        statsOther?.hit && damageHit(setLife, statsOther?.hit);
+        statsOther?.addHealth && addHealth(setLife, statsOther?.addHealth);
+        statsOther?.score && addScore(setScore, statsOther?.score);
         setCollider(statsOther?.other)
     }
 

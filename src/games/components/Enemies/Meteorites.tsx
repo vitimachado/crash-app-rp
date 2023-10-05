@@ -1,16 +1,12 @@
 'use client'
 import { randownValues } from '@/libPixiReact/actions/helpers.action';
-import { SpriteSheetStatsProps, SpriteSheetProps, SummonSpriteSheets } from '../SummonEnemies';
+import { SpriteSheetStatsProps, SpriteSheetProps } from '../Factories/SummonEnemies';
+import { SummonFactory } from '../Factories/SummonFactory';
 
 interface EnemySummonSpriteSheets { numberOfSprites?: number;  defaultProps?: SpriteSheetProps }
 
 export const Meteorites = ({ numberOfSprites = 1, defaultProps = { jsonURL: '/imgs/sprites/meteorite_sprite.json' } }: EnemySummonSpriteSheets) => {
-
-	const spriteSheetStats = ({ playerSprite, onColision, screenWidth, screenHeight }: SpriteSheetStatsProps) => Array.from(
-		{ length: numberOfSprites }, () => randownValues({ playerSprite, onColision, screenWidth, screenHeight, defaultProps })
-	);
-
 	return (
-		<SummonSpriteSheets spriteSheetStats={spriteSheetStats} />
+		<SummonFactory numberOfSprites={numberOfSprites} factoryValues={(values: any) => randownValues({ ...values, defaultProps })} />
 	);
 };

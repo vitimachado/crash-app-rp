@@ -1,4 +1,4 @@
-import { SpriteSheetStatsProps, SpriteSheetProps } from "@/games/components/SummonEnemies";
+import { SpriteSheetStatsProps, SpriteSheetProps } from "@/games/components/Factories/SummonEnemies";
 import { AnimatedSprite } from "pixi.js";
 
 export const setImageOptions = (app: any, img: any, options: any): void => {
@@ -17,7 +17,7 @@ export const setImageOptions = (app: any, img: any, options: any): void => {
     img.x = (x ? x : (app.screen.width / 2)) + (width/2);
     img.y = (y ? y : (app.screen.height / 2)) + (height/2);
 
-    if(animationSpeed !== undefined) {
+    if(!!animationSpeed) {
         img.animationSpeed = animationSpeed || 0;
         img.play();
     }
@@ -115,7 +115,7 @@ export const randownValues = ({ playerSprite, onColision, screenWidth, screenHei
             other: {
               sprite,
               stats: {
-                speed: 5,
+                speed: 5
               }
             }
           }
