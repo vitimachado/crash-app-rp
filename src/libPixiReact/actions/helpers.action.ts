@@ -11,8 +11,8 @@ export const setImageOptions = (img: any, options: any): void => {
     img.height = height;
     
     // move the img to the center of the screen
-    img.x = (x ? x : (screenWidth / 2)) + (width/2);
-    img.y = (y ? y : (screenHeight / 2)) + (height/2);
+    img.x = (!!x ? x : (screenWidth / 2)) + (width/2);
+    img.y = (!!y ? y : (screenHeight / 2)) + (height/2);
 
     if(!!animationSpeed) {
         img.animationSpeed = animationSpeed || 0;

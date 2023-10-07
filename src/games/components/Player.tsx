@@ -50,8 +50,10 @@ export const Player = (props: Props) => {
     playerRef.current = sprite;
     playerDataRef.current = {
         sprite,
+        maxLife,
         life,
         alive,
+        score,
         hitted: !!prevLife && !!currLife && (currLife > 0) && (currLife < prevLife),
         addHealth: !!prevLife && !!currLife && (currLife > 0) && (currLife > prevLife),
         scored: !!prevScored && !!currScored && (currScored > 0) && (currScored > prevScored),
@@ -119,7 +121,6 @@ export const Player = (props: Props) => {
                     destroySprite={!alive} />
                 <Explosions />
                 {children}
-                <HorizontalBar maxValue={maxLife} currentValue={lifeRef} />
             </PlayerContext.Provider>
         </PixiStage>
     );

@@ -1,4 +1,6 @@
 'use client'
+import React, { useRef } from "react";
+import { randownValues } from '@/libPixiReact/actions/helpers.action';
 import { PixiGraphic } from '@/libPixiReact/PixiGraphic';
 import { Graphics } from 'pixi.js';
 
@@ -11,10 +13,12 @@ interface HorizontalBar {
     borderColor?: number;
     fillColor?: number;
     maxValue: number;
-    currentValue?: any;
+    value?: any;
  }
 
-export const HorizontalBar = ({ x = 20, y = 20, width = 400, height = 30, borderRadius = 8, borderColor = 0xFFDDDD, fillColor = 0xFF0000, maxValue = 0.0001, currentValue }: HorizontalBar) => {
+export const HorizontalBar = ({ x = 20, y = 20, width = 400, height = 30, borderRadius = 8, borderColor = 0xFFDDDD, fillColor = 0xFF0000, maxValue = 0.0001, value }: HorizontalBar) => {
+    const currentValue = useRef(maxValue);
+    currentValue.current = value;
 
     const calcValue = (curr: number) => {
         return width * curr / maxValue;

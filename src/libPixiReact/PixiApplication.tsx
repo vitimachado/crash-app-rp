@@ -1,11 +1,11 @@
 'use client'
 import React, { useState } from "react";
-import { AnimatedSprite, Application, Assets, Graphics, Sprite, TilingSprite } from "pixi.js";
+import { AnimatedSprite, Application, Assets, Graphics, Sprite, Text, TilingSprite } from "pixi.js";
 import { ReactNode, useEffect, useRef } from 'react';
 
 type Props = { children: ReactNode }
 
-export type ImagePixi = Sprite | TilingSprite | Graphics | AnimatedSprite;
+export type ImagePixi = Sprite | TilingSprite | Graphics | AnimatedSprite | Text;
 
 export interface GameObject {
     img: ImagePixi;
