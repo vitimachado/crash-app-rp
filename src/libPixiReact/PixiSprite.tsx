@@ -1,10 +1,10 @@
 'use client'
 import { Sprite } from "pixi.js";
-import React, { useState, useEffect, useCallback } from "react";
-import { PixiApplicationContext } from "./PixiApplication";
+import React, { useEffect, useState } from "react";
+import { GameObject, ImagePixi, PixiApplicationContext } from "./PixiApplication";
 import { setImageOptions } from "./actions/helpers.action";
 
-type Props = {
+export type PixiSprite = {
     imageURL: string;
     x?: number;
     y?: number;
@@ -12,35 +12,44 @@ type Props = {
     height?: number;
     wrap?: any;
     auxData?: any;
-    update?: (sprite:any, delta: number, app?: any, auxData?: any) => void;
-    onStart?: (sprite: Sprite, app: any) => void;
+    destroySprite?: boolean;
+    update?: (sprite: ImagePixi, delta: number) => void;
+    onStart?: (sprite: ImagePixi, app: any) => void;
 };
 
-export const PixiSprite = (props: Props) => {
-    const [init, setInit] = useState(false)
-    const { imageURL, update, onStart, auxData } = props;
-    const { app } = React.useContext<any>(PixiApplicationContext);
-
-    const tick = useCallback(
-        (sprite: Sprite, delta: number) => sprite && update && update(sprite, delta, app, auxData),
-      [auxData],
-    );
+export const PixiSprite = React.forwardRef((props: PixiSprite, ref) => {
+    const [gameObject, setGameObject] = useState<GameObject | undefined>();
+    const { imageURL, destroySprite, update, onStart } = props;
+    const { app, screenWidth, screenHeight, addGameObject, destroyGameObject } = React.useContext<PixiApplicationContext>(PixiApplicationContext);
 
     useEffect(() => {
-        // create a new Sprite from an image path
-        if(!!app && !init) {
+        if(!gameObject) {
             const sprite = Sprite.from(imageURL);
-            setImageOptions(app, sprite, props);
+            setImageOptions(sprite, { ...props, screenWidth, screenHeight });
+            const gameObject = {
+                img: sprite,
+                update: (delta: number) => {
+                    !!update && !sprite.destroyed && update(sprite, delta);
+                },
+                refComponent: ref
+            };
+            setGameObject(gameObject);
+            addGameObject && addGameObject(gameObject);
             onStart && onStart(sprite, app);
-            // Listen for animate update
-            app.ticker.add((delta: number) => tick(sprite, delta));
-            setInit(true);
         }
 
         return () => {
-            app && app?.ticker?.remove?.(tick);
+            destroyGameObject && gameObject && destroyGameObject(gameObject);
+            setGameObject(undefined);
         };
-    }, [app]);
+    }, []);
+
+    useEffect(() => {
+        if(!!destroySprite && !!gameObject) {
+            destroyGameObject && destroyGameObject(gameObject);
+            setGameObject(undefined);
+        }
+    }, [destroySprite]);
 
     return <></>
-};
+});

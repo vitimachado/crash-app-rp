@@ -35,8 +35,7 @@ export const Player = (props: Props) => {
     const maxLife = stats?.maxLife ?? 100;
     const [life, setLife] = useState<number>(maxLife);
     const [score, setScore] = useState<number>(0);
-    console.log("🚀 ~ file: Player.tsx:38 ~ Player ~ score:", score)
-    const [alive, setAlived] = useState<boolean>(false);
+    const [alive, setAlived] = useState<boolean>(true);
     const { app } = React.useContext<any>(PixiApplicationContext);
     const lifeRef = useRef<number>();
     const inputsKeyboardRef = useRef();
@@ -61,14 +60,14 @@ export const Player = (props: Props) => {
 
     useEffect(() => {
         if(life <= 0 && alive) {
-            app.stage.removeChild(sprite);
+            
             setAlived(false);
         }
     }, [life])
     
 
-    const update = (sprite: any, delta: number, app: any) => {
-        if(!sprite) {
+    const update = (sprite: any, delta: number) => {
+        if(!playerDataRef?.current?.alive) {
             return;
         }
         sprite.rotation += 0.05 * delta;
@@ -99,6 +98,9 @@ export const Player = (props: Props) => {
     }
 
     const onColision = (_: any, statsOther: any) => {
+        if(!playerDataRef?.current?.alive) {
+            return;
+        }
         statsOther?.hit && damageHit(setLife, statsOther?.hit);
         statsOther?.addHealth && addHealth(setLife, statsOther?.addHealth);
         statsOther?.score && addScore(setScore, statsOther?.score);
@@ -113,7 +115,8 @@ export const Player = (props: Props) => {
                     width={width}
                     height={height}
                     update={update}
-                    onStart={handleOnStart} />
+                    onStart={handleOnStart}
+                    destroySprite={!alive} />
                 <Explosions />
                 {children}
                 <HorizontalBar maxValue={maxLife} currentValue={lifeRef} />

@@ -1,6 +1,4 @@
 'use client'
-import PixiContainer from '@/libPixiReact/PixiContainer';
-import { PixiTiling } from '@/libPixiReact/PixiTiling';
 import Link from 'next/link';
 
 type Props = { 

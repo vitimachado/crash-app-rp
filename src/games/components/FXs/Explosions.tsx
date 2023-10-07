@@ -1,11 +1,10 @@
 'use client'
 import React from "react";
-import { SpriteSheetProps } from '../Factories/SummonEnemies';
 import { AnimatedSprite, Application } from 'pixi.js';
 import { PixiSpriteSheet } from "@/libPixiReact/PixiSpriteSheet";
 import { PlayerContext } from "../Player";
 
-interface EnemySummonSpriteSheets { numberOfSprites?: number;  defaultProps?: SpriteSheetProps }
+interface EnemySummonSpriteSheets { numberOfSprites?: number;  defaultProps?: PixiSpriteSheet }
 
 export const Explosions = () => {
     const { playerDataRef } = React.useContext<any>(PlayerContext);
@@ -19,6 +18,9 @@ export const Explosions = () => {
 			};
 		},
 		update: (explosion: AnimatedSprite, delta: number, app?: Application) => {
+			if(explosion?.destroyed) {
+				return;
+			}
 			const player = playerDataRef?.current;
 			if(player.hitted) {
 				const collider = player?.collider;

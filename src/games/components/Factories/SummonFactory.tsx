@@ -1,15 +1,22 @@
 'use client'
-import { SpriteSheetStatsProps, SpriteSheetProps, SummonSpriteSheets } from './SummonEnemies';
+import { PixiSpriteSheet } from '@/libPixiReact/PixiSpriteSheet';
+import { ISummonSpriteSheet, SummonSpriteSheet } from './SummonSpriteSheet';
 
-interface SummonFactory { numberOfSprites?: number;  factoryValues?: any }
+export interface SummonFactory {
+	id?: string;
+	numberOfSprites?: number;
+	factoryValues?: ISummonSpriteSheet;
+	component?: (defaultProps?: PixiSpriteSheet) => React.JSX.Element;
+	defaultComponentProps?: PixiSpriteSheet;
+}
 
-export const SummonFactory = ({ numberOfSprites = 1, factoryValues }: SummonFactory) => {
+export const SummonFactory = ({ id='', numberOfSprites = 1, factoryValues, component: Component, defaultComponentProps: defaultProps }: SummonFactory) => {
 
-	const spriteSheetStats = ({ playerSprite, onColision, screenWidth, screenHeight }: SpriteSheetStatsProps) => Array.from(
-		{ length: numberOfSprites }, () => factoryValues({ playerSprite, onColision, screenWidth, screenHeight })
-	);
+	const spriteSheetStatsArray = () => Array.from({ length: numberOfSprites }, () => factoryValues);
 
-	return (
-		<SummonSpriteSheets spriteSheetStats={spriteSheetStats} />
+	return spriteSheetStatsArray().map((data, index) => !!Component ?
+		<Component key={`summonEnemies-${id}-${index}`} {...defaultProps} /> :
+		data ? <SummonSpriteSheet key={`summonEnemies-${id}-${index}`} {...data} /> :
+		<></>
 	);
 };

@@ -1,12 +1,9 @@
-import { SpriteSheetStatsProps, SpriteSheetProps } from "@/games/components/Factories/SummonEnemies";
-import { AnimatedSprite } from "pixi.js";
+import { SpriteSheetStatsProps } from "@/games/components/Factories/SummonSpriteSheet";
+import { AnimatedSprite, Application, Sprite } from "pixi.js";
+import { PixiSpriteSheet } from "../PixiSpriteSheet";
 
-export const setImageOptions = (app: any, img: any, options: any): void => {
-    const { x, y, width = 30, height = 30, animationSpeed, wrap } = options;
-    /*
-    * An imgatedSprite inherits all the properties of a PIXI img
-    * so you can change its position, its anchor, mask it, etc
-    */
+export const setImageOptions = (img: any, options: any): void => {
+    const { x, y, width = 30, height = 30, animationSpeed, screenWidth, screenHeight } = options;
     // center the img's anchor point
     img.anchor.set(0.5);
 
@@ -14,19 +11,12 @@ export const setImageOptions = (app: any, img: any, options: any): void => {
     img.height = height;
     
     // move the img to the center of the screen
-    img.x = (x ? x : (app.screen.width / 2)) + (width/2);
-    img.y = (y ? y : (app.screen.height / 2)) + (height/2);
+    img.x = (x ? x : (screenWidth / 2)) + (width/2);
+    img.y = (y ? y : (screenHeight / 2)) + (height/2);
 
     if(!!animationSpeed) {
         img.animationSpeed = animationSpeed || 0;
         img.play();
-    }
-
-    if(!!wrap) {
-        wrap?.addChild?.(img);
-    }
-    else {
-        app.stage.addChild?.(img);
     }
 };
 
@@ -41,31 +31,33 @@ export const updateRotation = (sprite: any, delta: number) => {
 
 export const updateMovementY = (sprite: any, delta: number, app: any) => {
   sprite.y += 1 * delta;
-  if(sprite.y > app.screen.height) {
+  if(sprite.y > app?.screen?.height) {
     sprite.y = 0;
   }
 }
 
 export const updateMovementX = (sprite: any, delta: number, app: any) => {
   sprite.x += 1 * delta;
-  if(sprite.x > app.screen.width) {
+  if(sprite.x > app?.screen?.width) {
     sprite.x = 0;
   }
 }
 
 export const updateMovementXY = (sprite: any, delta: number, app: any) => {
   sprite.x += 1 * delta;
-  if(sprite.x > app.screen.width) {
+  if(sprite?.x > app?.screen?.width) {
     sprite.x = 0;
   }
   sprite.y += 1 * delta;
-  if(sprite.y > app.screen.height) {
+  if(sprite?.y > app?.screen?.height) {
     sprite.y = 0;
   }
 }
 
 export const updateTileMovementY = (sprite: any, delta: number, app: any) => {
+  if(sprite?.tilePosition) {
     sprite.tilePosition.y += 2 * delta;
+  }
 }
 
 
@@ -80,7 +72,7 @@ export const updateRandow = () => {
     return updateFunctions[randomIndex];
 }
 
-export const rectIntersection = (a: any, b: any) => {
+export const rectIntersection = (a: Sprite, b: Sprite) => {
     const aRect = a?.getBounds();
     const bRect = b?.getBounds();
     if(!aRect || !bRect) {
@@ -93,7 +85,7 @@ export const rectIntersection = (a: any, b: any) => {
            aRect.y < bRect.height + bRect.y;
 };
 
-export const randownValues = ({ playerSprite, onColision, screenWidth, screenHeight, defaultProps }: SpriteSheetStatsProps): SpriteSheetProps => {
+export const randownValues = ({ playerSprite, onColision, screenWidth, screenHeight, defaultProps }: SpriteSheetStatsProps): PixiSpriteSheet => {
   const widthHeight = getRandomInt(100);
   return {
     x: getRandomInt(screenWidth),
@@ -104,7 +96,10 @@ export const randownValues = ({ playerSprite, onColision, screenWidth, screenHei
     stats: {
       speed: 5,
     },
-    update: (sprite: AnimatedSprite, delta: number, app: any) => {
+    update: (sprite: AnimatedSprite, delta: number, app: Application) => {
+      if(sprite?.destroyed || playerSprite?.current?.destroyed) {
+        return;
+      }
       const movementFun = updateRandow();
       movementFun(sprite, delta, app);
       if(rectIntersection(playerSprite?.current, sprite)) {

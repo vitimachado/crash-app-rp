@@ -20,7 +20,7 @@ export const PixiGraphic = (props: Props) => {
     const { app, wrap } = React.useContext<any>(PixiApplicationContext);
 
     const tick = useCallback(
-        (graphics: Graphics, delta: number) => graphics && update && update(graphics, delta, app, auxData),
+        (graphics: Graphics, delta: number) => !graphics.destroyed && !!graphics && !!update && update(graphics, delta, app, auxData),
       [auxData],
     );
 
