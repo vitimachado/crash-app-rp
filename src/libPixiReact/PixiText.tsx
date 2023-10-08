@@ -1,5 +1,5 @@
 'use client'
-import { Text } from "pixi.js";
+import { Text, TextStyle } from "pixi.js";
 import React, { useEffect, useState } from "react";
 import { GameObject, ImagePixi, PixiApplicationContext } from "./PixiApplication";
 import { setImageOptions } from "./actions/helpers.action";
@@ -24,13 +24,26 @@ export const PixiText = React.forwardRef((props: PixiText, ref) => {
 
     useEffect(() => {
         if(!gameObject) {
-            const textPixi = new Text(text, {
+            const style = new TextStyle({
                 fontFamily: 'Arial',
-                fontSize: 24,
-                fill: 0xffff50,
-                align: 'center',
+                fontSize: 40,
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+                fill: ['#ffffff', '#0099ff'], // gradient
+                stroke: '#4a1850',
+                strokeThickness: 5,
+                dropShadow: true,
+                dropShadowColor: '#000000',
+                dropShadowBlur: 4,
+                dropShadowAngle: Math.PI / 6,
+                dropShadowDistance: 6,
+                wordWrap: true,
+                wordWrapWidth: 440,
+                lineJoin: 'round',
             });
-            setImageOptions(textPixi, { ...props, screenWidth, screenHeight });
+
+            const textPixi = new Text(text, style);
+            setImageOptions(textPixi, { ...props, width: 40, height: 40, screenWidth, screenHeight });
             const gameObject = {
                 img: textPixi,
                 update: (delta: number) => {

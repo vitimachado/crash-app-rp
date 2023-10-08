@@ -11,12 +11,12 @@ export const MainUI = () => {
 	const maxLife = playerDataRef?.current?.maxLife;
 	const life = playerDataRef?.current?.life;
 	const score = playerDataRef?.current?.score;
-	const xScore = (screenWidth ?? 100)-50;
+	const xScore = (screenWidth ?? 100)-100;
 
 	return (
 		<>
 			<HorizontalBar maxValue={maxLife} value={life} />
-			<TextField text={score < 10 ? ` ${score}` : score} x={xScore} y={50} />
+			<TextField text={score < 10 ? ` ${score}` : score} x={xScore} y={40} />
 		</>
 	);
 };

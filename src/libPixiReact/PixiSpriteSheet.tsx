@@ -40,7 +40,11 @@ export const PixiSpriteSheet = React.forwardRef((props: PixiSpriteSheet, ref) =>
             const gameObject = {
                 img: anim,
                 update: (delta: number) => {
-                    !!update && !anim.destroyed && update(anim, delta, app)
+                    try {
+                        !!update && !anim.destroyed && update(anim, delta, app)
+                    } catch (error) {
+                        console.log("🚀 ~ file: PixiSpriteSheet.tsx:46 ~ !gameObject&&jsonURL&&Assets.load ~ error:", error)
+                    }
                 },
                 refComponent: ref
             };
