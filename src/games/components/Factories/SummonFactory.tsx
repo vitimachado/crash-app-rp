@@ -1,13 +1,13 @@
 'use client'
-import { PixiSpriteSheet } from '@/libPixiReact/PixiSpriteSheet';
+import { IPixiSpriteSheet } from '@/libPixiReact/PixiSpriteSheet';
 import { ISummonSpriteSheet, SummonSpriteSheet } from './SummonSpriteSheet';
 
 export interface SummonFactory {
 	id?: string;
 	numberOfSprites?: number;
 	factoryValues?: ISummonSpriteSheet;
-	component?: (defaultProps?: PixiSpriteSheet) => React.JSX.Element;
-	defaultComponentProps?: PixiSpriteSheet;
+	component?: (defaultProps?: IPixiSpriteSheet) => React.JSX.Element;
+	defaultComponentProps?: IPixiSpriteSheet;
 }
 
 export const SummonFactory = ({ id='', numberOfSprites = 1, factoryValues, component: Component, defaultComponentProps: defaultProps }: SummonFactory) => {

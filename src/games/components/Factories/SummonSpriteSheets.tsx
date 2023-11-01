@@ -1,6 +1,6 @@
 'use client'
 import { PixiApplicationContext } from "@/libPixiReact/PixiApplication";
-import { PixiSpriteSheet } from "@/libPixiReact/PixiSpriteSheet";
+import PixiSpriteSheet, { IPixiSpriteSheet } from "@/libPixiReact/PixiSpriteSheet";
 import React, { useEffect, useState } from "react";
 import { PlayerContext } from "../Player";
 import { AnimatedSprite, Application, Sprite } from "pixi.js";
@@ -10,12 +10,12 @@ export type SpriteSheetStatsProps = {
     onColision: any;
     screenWidth: any;
     screenHeight: any;
-    defaultProps?: PixiSpriteSheet;
+    defaultProps?: IPixiSpriteSheet;
     playerDataRef?: any;
 }
 
 type Props = {
-    spriteSheetStats: ({ playerSprite, onColision, screenWidth, screenHeight, playerDataRef }: SpriteSheetStatsProps) => PixiSpriteSheet[];
+    spriteSheetStats: ({ playerSprite, onColision, screenWidth, screenHeight, playerDataRef }: SpriteSheetStatsProps) => IPixiSpriteSheet[];
     onLoadSummonSpriteSheets ?: (sprite: Sprite, app: Application) => void;
 };
 

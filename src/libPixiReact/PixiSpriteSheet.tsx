@@ -6,7 +6,7 @@ import { setImageOptions } from "./actions/helpers.action";
 
 export type ObjectsFuctions = { destroyObject: (() => void) | undefined }
 
-export type PixiSpriteSheet = {
+export type IPixiSpriteSheet = {
     jsonURL?: string;
     x?: number;
     y?: number;
@@ -26,7 +26,7 @@ export type PixiSpriteSheet = {
     resetObjects?: () => void;
 };
 
-export const PixiSpriteSheet = React.forwardRef((props: PixiSpriteSheet, ref) => {
+const PixiSpriteSheet = React.forwardRef((props: IPixiSpriteSheet, ref) => {
     const [gameObject, setGameObject] = useState<GameObject | undefined>();
     const { jsonURL, destroySpriteSheet, update, onStart, onLoad } = props;
     const { app, screenWidth, screenHeight, addGameObject, destroyGameObject } = React.useContext<PixiApplicationContext>(PixiApplicationContext);
@@ -68,3 +68,7 @@ export const PixiSpriteSheet = React.forwardRef((props: PixiSpriteSheet, ref) =>
 
     return <></>
 });
+
+PixiSpriteSheet.displayName = "PixiSpriteSheet";
+
+export default PixiSpriteSheet;

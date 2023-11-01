@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { PixiSprite } from '@/libPixiReact/PixiSprite';
+import PixiSprite from '@/libPixiReact/PixiSprite';
 import PixiStage from '@/libPixiReact/PixiStage';
 import { InputKeyboardContext } from "@/components/InputKeyboard";
 import { handleInput } from "../actions/inputs";

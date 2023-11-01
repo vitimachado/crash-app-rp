@@ -1,10 +1,10 @@
 'use client'
 import React from "react";
 import { AnimatedSprite, Application } from 'pixi.js';
-import { PixiSpriteSheet } from "@/libPixiReact/PixiSpriteSheet";
+import PixiSpriteSheet, { IPixiSpriteSheet } from "@/libPixiReact/PixiSpriteSheet";
 import { PlayerContext } from "../Player";
 
-interface EnemySummonSpriteSheets { numberOfSprites?: number;  defaultProps?: PixiSpriteSheet }
+interface EnemySummonSpriteSheets { numberOfSprites?: number;  defaultProps?: IPixiSpriteSheet }
 
 export const Explosions = () => {
     const { playerDataRef } = React.useContext<any>(PlayerContext);

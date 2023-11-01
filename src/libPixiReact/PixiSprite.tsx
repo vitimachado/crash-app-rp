@@ -17,7 +17,7 @@ export type PixiSprite = {
     onStart?: (sprite: ImagePixi, app: any) => void;
 };
 
-export const PixiSprite = React.forwardRef((props: PixiSprite, ref) => {
+const PixiSprite = React.forwardRef((props: PixiSprite, ref) => {
     const [gameObject, setGameObject] = useState<GameObject | undefined>();
     const { imageURL, destroySprite, update, onStart } = props;
     const { app, screenWidth, screenHeight, addGameObject, destroyGameObject } = React.useContext<PixiApplicationContext>(PixiApplicationContext);
@@ -53,3 +53,7 @@ export const PixiSprite = React.forwardRef((props: PixiSprite, ref) => {
 
     return <></>
 });
+
+PixiSprite.displayName = "PixiSprite";
+
+export default PixiSprite;

@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { getRandomInt, rectIntersection } from '@/libPixiReact/actions/helpers.action';
 import { SpriteSheetStatsProps, SummonSpriteSheet } from '../Factories/SummonSpriteSheet';
 import { AnimatedSprite, Application } from 'pixi.js';
-import { PixiSpriteSheet } from '@/libPixiReact/PixiSpriteSheet';
+import { IPixiSpriteSheet } from '@/libPixiReact/PixiSpriteSheet';
 import { GlowFilter } from "pixi-filters";
 import * as PIXI from 'pixi.js';
 
-export const Item = (defaultProps?: PixiSpriteSheet) => {
+export const Item = (defaultProps?: IPixiSpriteSheet) => {
     const [destroySpriteSheet, setDestroySpriteSheet] = useState<boolean>(false);
 
-	const getValues = ({ playerSprite, onColision, screenWidth, screenHeight }: SpriteSheetStatsProps): PixiSpriteSheet => {
+	const getValues = ({ playerSprite, onColision, screenWidth, screenHeight }: SpriteSheetStatsProps): IPixiSpriteSheet => {
         let count = 0;
 		return {
             jsonURL: '/imgs/sprites/sapphirespinning.json' ,

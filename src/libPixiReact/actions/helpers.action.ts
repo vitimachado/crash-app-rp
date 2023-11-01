@@ -1,6 +1,6 @@
 import { SpriteSheetStatsProps } from "@/games/components/Factories/SummonSpriteSheet";
 import { AnimatedSprite, Application, Sprite } from "pixi.js";
-import { PixiSpriteSheet } from "../PixiSpriteSheet";
+import { IPixiSpriteSheet } from "../PixiSpriteSheet";
 
 export const setImageOptions = (img: any, options: any): void => {
     const { x, y, width = 30, height = 30, animationSpeed, screenWidth, screenHeight } = options;
@@ -85,7 +85,7 @@ export const rectIntersection = (a: Sprite, b: Sprite) => {
            aRect.y < bRect.height + bRect.y;
 };
 
-export const randownValues = ({ playerSprite, onColision, screenWidth, screenHeight, defaultProps }: SpriteSheetStatsProps): PixiSpriteSheet => {
+export const randownValues = ({ playerSprite, onColision, screenWidth, screenHeight, defaultProps }: SpriteSheetStatsProps): IPixiSpriteSheet => {
   const widthHeight = getRandomInt(100);
   return {
     x: getRandomInt(screenWidth),

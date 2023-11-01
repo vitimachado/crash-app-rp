@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { GameObject, ImagePixi, PixiApplicationContext } from "./PixiApplication";
 import { setImageOptions } from "./actions/helpers.action";
 
-export type PixiText = {
+export type IPixiText = {
     text?: string;
     x?: number;
     y?: number;
@@ -17,7 +17,7 @@ export type PixiText = {
     onStart?: (sprite: Text, app: any) => void;
 };
 
-export const PixiText = React.forwardRef((props: PixiText, ref) => {
+const PixiText = React.forwardRef((props: IPixiText, ref) => {
     const [gameObject, setGameObject] = useState<GameObject | undefined>();
     const { text = '', destroySprite, update, onStart } = props;
     const { app, screenWidth, screenHeight, addGameObject, destroyGameObject } = React.useContext<PixiApplicationContext>(PixiApplicationContext);
@@ -71,3 +71,7 @@ export const PixiText = React.forwardRef((props: PixiText, ref) => {
 
     return <></>
 });
+
+PixiText.displayName = "PixiText";
+
+export default PixiText;

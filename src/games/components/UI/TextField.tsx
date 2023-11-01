@@ -1,9 +1,9 @@
 'use client'
 import React, { useRef } from "react";
-import { PixiText } from "@/libPixiReact/PixiText";
+import PixiText, { IPixiText } from "@/libPixiReact/PixiText";
 import { Text } from "pixi.js";
 
-export const TextField = (props: PixiText) => {
+export const TextField = (props: IPixiText) => {
     const currentValue = useRef(props.text);
     currentValue.current = props.text;
 
