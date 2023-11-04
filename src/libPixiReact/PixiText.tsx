@@ -19,7 +19,7 @@ export type IPixiText = {
 
 const PixiText = React.forwardRef((props: IPixiText, ref) => {
     const [gameObject, setGameObject] = useState<GameObject | undefined>();
-    const { text = '', destroySprite, update, onStart } = props;
+    const { text = '', destroySprite, width, height, update, onStart } = props;
     const { app, screenWidth, screenHeight, addGameObject, destroyGameObject } = React.useContext<PixiApplicationContext>(PixiApplicationContext);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const PixiText = React.forwardRef((props: IPixiText, ref) => {
             });
 
             const textPixi = new Text(text, style);
-            setImageOptions(textPixi, { ...props, width: 40, height: 40, screenWidth, screenHeight });
+            setImageOptions(textPixi, { ...props, width: width ?? 40, height: height ?? 40, screenWidth, screenHeight });
             const gameObject = {
                 img: textPixi,
                 update: (delta: number) => {

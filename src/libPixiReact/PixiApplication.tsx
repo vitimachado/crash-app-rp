@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { AnimatedSprite, Application, Assets, Graphics, Sprite, Text, TilingSprite } from "pixi.js";
 import { ReactNode, useEffect, useRef } from 'react';
+import Loading from "@/app/console/loading";
 
 type Props = { children: ReactNode }
 
@@ -77,7 +78,7 @@ export default function PixiApplication({ children }: Props) {
 
     return (
         <PixiApplicationContext.Provider value={{ app, assets, screenWidth: app?.screen?.width, screenHeight: app?.screen?.height, addGameObject, destroyGameObject }}>
-            <div ref={ref}>{ !!app ? children : <>Loading</> }</div>
+            <div ref={ref}>{ !!app ? children : <Loading /> }</div>
         </PixiApplicationContext.Provider>
     )
 };

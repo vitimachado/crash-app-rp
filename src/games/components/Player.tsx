@@ -1,37 +1,21 @@
 'use client'
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import { InputKeyboardContext } from "@/components/InputKeyboard";
+import { PixiApplicationContext } from "@/libPixiReact/PixiApplication";
 import PixiSprite from '@/libPixiReact/PixiSprite';
 import PixiStage from '@/libPixiReact/PixiStage';
-import { InputKeyboardContext } from "@/components/InputKeyboard";
-import { handleInput } from "../actions/inputs";
-import { PixiApplicationContext } from "@/libPixiReact/PixiApplication";
-import { Sprite } from "pixi.js";
-import { Explosions } from "./FXs/Explosions";
 import { usePrevious } from "@/shared/hook/usePrevious";
-import { HorizontalBar } from "./UI/HorizontalBar";
-
-type Props = {
-    children: any;
-    imageURL: string;
-    x?: number;
-    y?: number;
-    width?: number;
-    height?: number;
-    wrap?: any;
-    update?: (sprite:any, delta: number, app?: any) => void;
-    stats?: {
-        speed?: number;
-        maxLife?: number;
-    }
-};
+import { IGameStats, IPlayer } from "@/shared/models/interfaces.model";
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { handleInput } from "../actions/inputs";
+import { Explosions } from "./FXs/Explosions";
 
 export const PlayerContext = React.createContext({});
 
-export const Player = (props: Props) => {
+export const Player = (props: IPlayer) => {
     const [sprite, setSprite] = useState<any>();
     const [collider, setCollider] = useState<any>();
     const { inputsKeyboard } = React.useContext<any>(InputKeyboardContext);
-    const { imageURL = '/imgs/ufo1.png', width = 100, height = 100, stats, children } = props;
+    const { imageURL = '/imgs/ufo1.png', width = 100, height = 100, stats, setGameStats = () => null, children } = props;
     const maxLife = stats?.maxLife ?? 100;
     const [life, setLife] = useState<number>(maxLife);
     const [score, setScore] = useState<number>(0);
@@ -62,7 +46,7 @@ export const Player = (props: Props) => {
 
     useEffect(() => {
         if(life <= 0 && alive) {
-            
+            setGameStats({ over: true, score })
             setAlived(false);
         }
     }, [life])
@@ -93,9 +77,13 @@ export const Player = (props: Props) => {
         }
     }
 
-    const addScore = (setScore: React.Dispatch<React.SetStateAction<number>>, score: number) => {
-        if(!!score) {
-            setScore((prev: number) => prev + score);
+    const addScore = (setScore: React.Dispatch<React.SetStateAction<number>>, scoreRef: number) => {
+        if(!!scoreRef) {
+            setScore((prev: number) => prev + scoreRef);
+            if(playerDataRef.current.score >= (stats?.maxScore ?? -1) - 1) {
+                setGameStats({ nextLevel: true, score: playerDataRef.current.score });
+                setAlived(false);
+            }
         }
     }
 
