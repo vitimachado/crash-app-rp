@@ -78,7 +78,7 @@ export const Player = (props: IPlayer) => {
     }
 
     const addScore = (setScore: React.Dispatch<React.SetStateAction<number>>, scoreRef: number) => {
-        if(!!scoreRef) {
+        if(!!scoreRef && alive) {
             setScore((prev: number) => prev + scoreRef);
             if(playerDataRef.current.score >= (stats?.maxScore ?? -1) - 1) {
                 setGameStats({ nextLevel: true, score: playerDataRef.current.score });

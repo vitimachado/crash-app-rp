@@ -13,8 +13,9 @@ const initGameStats = {
 	maxLife: 10000,
 	level: 1,
 	over: false,
+	nextLevel: false,
 	score: 0,
-	enemiesNumber: 10,
+	enemiesNumber: 40,
 	maxScore: 30
 } as IGameStats;
 
@@ -34,8 +35,8 @@ const NextStepScreen = ({ gameStats, setGameStats }: {
 			maxScore: calcStat(gameStats?.maxScore, newLevel),
 		} ;
 		return gameStats?.nextLevel ? gameStatsNextLevel : initGameStats
-	}
-
+	};
+	
 	return (
 		<div className='flex flex-col items-center'>
 			<h2>{ gameStats?.nextLevel ? 'Well Done!' : 'Game Over' }</h2>
@@ -59,7 +60,7 @@ export const SpaceshipGame = () => {
 
 	return !!gameStats?.over || !!gameStats?.nextLevel ? <NextStepScreen {...{ gameStats, setGameStats }} /> :
 	(
-		<PixiApplication>
+		<PixiApplication key={gameStats?.level}>
 			<InputKeyboard>
 				<Background backgroundURL='/imgs/bg/sky01.png'>
 					<Player imageURL='/imgs/ufo1.png' stats={gameStats} setGameStats={handleOnSetStats}>
